@@ -2,11 +2,17 @@ from django.db import models
 from django.conf import settings
 from django.db.models.deletion import SET_NULL
 from django.utils import timezone
+from unidecode import unidecode
+
+
+def noticia_capa_directory_path(instance, filename):
+    titulo = unidecode(instance.titulo.replace(' ', '_').lower())
+    return f'imagens/{titulo}/capa/{filename}'
 
 
 def noticia_directory_path(instance, filename):
-    print(str(instance))
-    return f'imagens/'
+    noticia = unidecode(instance.noticia.titulo.replace(' ', '_').lower())
+    return f'imagens/{noticia}/{filename}'
 
 
 class Noticia(models.Model):
@@ -17,7 +23,7 @@ class Noticia(models.Model):
     texto = models.TextField()
     data_criacao = models.DateTimeField(default=timezone.now)
     data_publicacao = models.DateTimeField(blank=True, null=True)
-    capa = models.ImageField(upload_to=noticia_directory_path, null=True)
+    capa = models.ImageField(upload_to=noticia_capa_directory_path, null=True)
 
     def publish(self):
         self.data_publicacao = timezone.now()
