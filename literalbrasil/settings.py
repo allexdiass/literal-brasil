@@ -126,3 +126,5 @@ STATIC_ROOT = Path.joinpath(BASE_DIR, 'static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media/')
+
+GEOIP_PATH = Path.joinpath(BASE_DIR, 'geoip_path/')
